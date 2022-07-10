@@ -198,7 +198,7 @@ int main(){
     build_min_heap(heap);
 
     for(int i = 0; i< leaf_node_len; i++){
-        printf("%d", ((heap -> arr)+i)->freq);
+        printf("%d ", ((heap -> arr)+i)->freq);
     }
 
 
