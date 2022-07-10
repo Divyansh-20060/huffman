@@ -142,6 +142,15 @@ struct node* find_frequecncy(char text[], int size, int* leaf_node_len){
     return leaf_node;
 }
 
+
+struct node* extract_min(struct min_heap* h){
+    swap(((h -> arr)),((h -> arr) + h -> heap_len - 1));
+    h -> heap_len = h -> heap_len - 1;
+    min_heapify(h,0);
+    return((h -> arr) + h ->arr_len - 1);
+}
+
+
 FILE* verfy_file(){
     char fname[100];
     printf("enter the file name: \n");
@@ -165,8 +174,7 @@ long int getsize(FILE* the_file){
     return size;
 }
 
-int main()
-{
+int main(){
     FILE* file = verfy_file();
     long int size = getsize(file);
 
@@ -194,6 +202,11 @@ int main()
     }
 
 
+
+
+    struct node* temp = extract_min(heap);
+
+    printf("%c -> %d", temp -> data, temp -> freq);
 
     return 0;
 
