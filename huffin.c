@@ -1,14 +1,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-long int getsize(FILE* the_file){
-    fseek(the_file,0L,SEEK_END);
-    long int size = ftell(the_file);
-    return size;
-}
-
-int main(){
-
+FILE* verfy_file(){
     char fname[100];
     printf("enter the file name: \n");
     scanf("%s",fname);
@@ -20,9 +13,22 @@ int main(){
         return -1;
     }
 
+    return file;
+
+}
+
+long int getsize(FILE* the_file){
+    fseek(the_file,0L,SEEK_END);
+    long int size = ftell(the_file);
+    return size;
+}
+
+int main(){
+
+    FILE* file = verfy_file();
     long int size = getsize(file);
 
-    printf("%lu",size);
+    printf("%lu\n", size);
 
     return 0;
 
