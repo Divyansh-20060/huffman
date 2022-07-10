@@ -84,6 +84,12 @@ struct node allocate_leaf_node(char data,int freq){
     return new_node;
 }
 
+struct node allocate_node(){
+    struct node new_node;
+    new_node.left = NULL;
+    new_node.right = NULL;
+}
+
 int InDataArr(char data_arr[], int size, char dv){
     for(int i = 0; i < size; i++){
         if(data_arr[i] == dv){
@@ -150,6 +156,45 @@ struct node* extract_min(struct min_heap* h){
     return((h -> arr) + h ->arr_len - 1);
 }
 
+void insert_at(struct node* arr,int idx){
+    if(idx == 0){
+        return;
+    }
+
+    int parent = idx/2;
+
+    if((arr + parent) -> freq < (arr + idx) -> freq){
+        swap((arr + parent),(arr + idx));
+        insert_at(arr,parent);
+    }
+
+}
+
+void insert(struct min_heap* h, struct node* nd){
+    int n = h -> heap_len;
+    *((h -> arr) + n)  = *nd;
+    insert_at(h-> arr, n+1);
+
+    h -> heap_len = h -> heap_len + 1; 
+}
+
+struct node* huffman_encoding(struct min_heap* h, int n){
+    for( int i = 0; i< n-1; i++){
+        struct node new = allocate_node();
+        struct node* x = extract_min(h);
+        struct node* y = extract_min(h);
+
+        new.left = x;
+        new.right = y;
+
+        new.freq = (x -> freq) + (y -> freq);
+
+        insert(h,&new);
+
+    }
+
+    return extract_min(h);
+}
 
 FILE* verfy_file(){
     char fname[100];
@@ -201,12 +246,13 @@ int main(){
         printf("%d ", ((heap -> arr)+i)->freq);
     }
 
+    printf("\n");
 
+    struct node* huff_tree = huffman_encoding(heap,leaf_node_len);
 
-
-    struct node* temp = extract_min(heap);
-
-    printf("%c -> %d", temp -> data, temp -> freq);
+    printf("%d\n", huff_tree->freq);
+    printf("%d\n", (huff_tree->left) -> freq);
+    printf("%c\n", (huff_tree->left) -> data);
 
     return 0;
 
