@@ -53,9 +53,24 @@ void find_frequecncy(char text[], int size, int* leaf_node_len)
         
     }
 
+    int freq_arr[len];
+
     for(int i = 0; i < len; i++)
     {
-        printf("%c\n", data_arr[i]);
+        char DV = data_arr[i];
+
+        for(int j = 0; j < size; j++)
+        {
+            if(text[j] == DV)
+            {
+                freq_arr[i] = freq_arr[i]++;
+            }
+        }
+    }
+
+    for(int i = 0; i < len; i++)
+    {
+        printf("%c -> %d", data_arr[i], freq_arr[i]);
     }
 
 }
