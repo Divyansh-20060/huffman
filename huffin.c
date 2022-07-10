@@ -20,7 +20,7 @@ struct node* allocate_leaf_node(char data,int freq)
     return new_node;
 }
 
-InDataArr(char data_arr[], int size, char dv)
+int InDataArr(char data_arr[], int size, char dv)
 {
     for(int i = 0; i < size; i++)
     {
