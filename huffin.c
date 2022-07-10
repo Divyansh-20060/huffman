@@ -1,7 +1,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-FILE* verfy_file(){
+FILE* verfy_file()
+{
     char fname[100];
     printf("enter the file name: \n");
     scanf("%s",fname);
@@ -10,25 +11,29 @@ FILE* verfy_file(){
 
     if(file == NULL){
         printf("file not found.\n");
-        return -1;
+        exit(1);
     }
 
     return file;
 
 }
 
-long int getsize(FILE* the_file){
+long int getsize(FILE* the_file)
+{
     fseek(the_file,0L,SEEK_END);
     long int size = ftell(the_file);
     return size;
 }
 
-int main(){
-
+int main()
+{
     FILE* file = verfy_file();
     long int size = getsize(file);
 
-    printf("%lu\n", size);
+    char text[size];
+
+    fgets(text,size,file);
+    printf("%s\n",file);
 
     return 0;
 
