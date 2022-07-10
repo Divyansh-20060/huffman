@@ -154,6 +154,8 @@ struct node* extract_min(struct min_heap* h){
     swap(((h -> arr)),((h -> arr) + h -> heap_len - 1));
     h -> heap_len = h -> heap_len - 1;
     min_heapify(h,0);
+
+    printf("%d ",((h -> arr) + h ->arr_len - 1)->freq);
     return((h -> arr) + h ->arr_len - 1);
 }
 
@@ -250,10 +252,6 @@ int main(){
     printf("\n");
 
     struct node* huff_tree = huffman_encoding(heap,leaf_node_len);
-
-    printf("%d\n", huff_tree->freq);
-    printf("%d\n", (huff_tree->left) -> freq);
-    printf("%c\n", (huff_tree->left) -> data);
 
     return 0;
 
