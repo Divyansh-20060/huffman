@@ -88,6 +88,7 @@ struct node allocate_node(){
     struct node new_node;
     new_node.left = NULL;
     new_node.right = NULL;
+    return new_node;
 }
 
 int InDataArr(char data_arr[], int size, char dv){
