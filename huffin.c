@@ -151,11 +151,11 @@ struct node* find_frequecncy(char text[], int size, int* leaf_node_len){
 
 
 struct node* extract_min(struct min_heap* h){
-    swap(h -> arr,h -> arr + h -> heap_len - 1);
+    swap(&(h -> arr[0]), &(h -> arr[ h -> heap_len - 1]));
     h -> heap_len = h -> heap_len - 1;
     min_heapify(h,0);
 
-    printf("%d ",((h -> arr) + h ->heap_len - 1)->freq);
+    //printf("%d ",((h -> arr) + h ->heap_len - 1)->freq);
     return((h -> arr) + h ->heap_len - 1);
 }
 
