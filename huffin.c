@@ -8,19 +8,19 @@ struct node
     struct node* left;
     struct node* right;
 };
-struct node* allocate_leaf_node(char data)
+struct node* allocate_leaf_node(char data,int freq)
 
 {
     struct node* new_node = (struct node*) malloc(sizeof(struct node));
     new_node -> data  = data;
-    new_node -> freq = 1;
+    new_node -> freq = freq;
     new_node -> left = NULL;
     new_node -> right = NULL;
     
     return new_node;
 }
 
-int InDataArr(char data_arr[], int size, char dv)
+InDataArr(char data_arr[], int size, char dv)
 {
     for(int i = 0; i < size; i++)
     {
@@ -32,7 +32,8 @@ int InDataArr(char data_arr[], int size, char dv)
 
     return 0;
 }
-void find_frequecncy(char text[], int size, int* leaf_node_len)
+
+struct node* find_frequecncy(char text[], int size, int* leaf_node_len)
 {   
     char data_arr[size];
     int len = 0;
@@ -76,6 +77,16 @@ void find_frequecncy(char text[], int size, int* leaf_node_len)
         printf("%c -> %d\n", data_arr[i], freq_arr[i]);
     }
 
+    struct node* leaf_node[len];
+
+    for(int i = 0; i <len; i++)
+    {
+        leaf_node[i] = allocate_leaf_node(data_arr[i], freq_arr[i]);
+    }
+
+    *leaf_node_len = len;
+
+    return leaf_node[0];
 }
 
 FILE* verfy_file()
@@ -113,7 +124,12 @@ int main()
 
     int leaf_node_len;
 
-    find_frequecncy(text, size, &leaf_node_len);
+    struct node* leaf_nodes = find_frequecncy(text, size, &leaf_node_len);
+
+    for(int i = 0; i< leaf_node_len; i++)
+    {
+        printf("%c -> %d\n", (leaf_nodes+i) -> data, (leaf_nodes+i) -> freq);
+    }
 
 
 
