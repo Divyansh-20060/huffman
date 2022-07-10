@@ -1,6 +1,74 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+struct node
+{
+    char data;
+    int freq;
+    struct node* left;
+    struct node* right;
+};
+struct node* allocate_leaf_node(char data)
+
+{
+    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+    new_node -> data  = data;
+    new_node -> freq = 1;
+    new_node -> left = NULL;
+    new_node -> right = NULL;
+    
+    return new_node;
+}
+
+int InDataArr(char data_arr[], int size, char dv)
+{
+    for(int i = 0; i < size; i++)
+    {
+        if(data_arr[i] == dv)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+struct node* find_frequecncy(char text[], int size, int* leaf_node_len)
+{   
+    char data_arr[100];
+    struct node* leaf_node_arr[100];
+    int len = 0;
+
+    data_arr[0] = text[0];
+    leaf_node_arr[0] =  allocate_leaf_node(text[0]);
+    len++;
+
+    for(int i = 1; i < size; i++)
+    {   int idx = InDataArr(data_arr,len,text[i]);
+        if (idx >= 0 && idx < size)
+        {
+            leaf_node_arr[idx] -> freq = leaf_node_arr[idx] -> freq + 1;
+        }
+
+        else if (idx == -1)
+        {
+         data_arr[len] = text[idx];
+         leaf_node_arr[len] = allocate_leaf_node(text[idx]);
+         len++;
+        }
+
+        else
+        {
+            printf("abnormal behavior");
+            exit(1);
+        }
+    }
+
+    *leaf_node_len  = len + 1;
+
+    return leaf_node_arr[0];
+
+}
+
 FILE* verfy_file()
 {
     char fname[100];
@@ -32,9 +100,17 @@ int main()
     long int size = getsize(file);
 
     char text[size];
-    fgets(text,size,file);
+    fgets(text,size + 1,file);
 
-    printf("%s\n",text);
+    int leaf_node_len;
+
+    struct node* leaf_nodes = find_frequecncy(text, size, &leaf_node_len);
+
+
+    for(int i = 0; i< leaf_node_len; i++)
+    {
+        printf("%c -> %d\n", (leaf_nodes + i) -> data,(leaf_nodes + i) -> freq );
+    }
 
 
     return 0;
