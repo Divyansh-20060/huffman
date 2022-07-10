@@ -8,9 +8,73 @@ struct node
     struct node* left;
     struct node* right;
 };
-struct node allocate_leaf_node(char data,int freq)
 
+struct min_heap
 {
+    struct node* arr;
+    int heap_len;
+    int arr_len;
+    int size;
+
+};
+
+struct min_heap* allocate_heap(struct node* arr, int size)
+{
+    struct min_heap* heap = (struct min_heap*) malloc(sizeof(struct min_heap));
+
+    heap -> arr = arr;
+    heap -> heap_len = size;
+    heap -> arr_len = size;
+    heap -> size = size;
+
+    return heap;
+}
+
+void swap(struct node* a, struct node* b)
+{
+    struct node temp = *a;
+    *a = *b;
+    *b = temp;
+    return;
+}
+
+void heapifyat(struct node* arr, int n, int i)
+{
+    int left = 2*i;
+    int right = left + 1;
+    int smallest = i;
+
+    if (left < n && (arr + smallest) -> freq > (arr + left) -> freq)
+    {
+        smallest = left;
+    }
+
+    if (right < n && (arr + smallest) -> freq > (arr + right) -> freq)
+    {
+        smallest = right;
+    }
+
+    if (smallest != i)
+    {
+        swap((arr + i), (arr + smallest));
+        heapifyat(arr,n,smallest);
+    }
+}
+
+void min_heapify(struct min_heap *h,int i){
+    heapifyat(h -> arr, h -> heap_len,i);
+}
+
+
+void build_min_heap(struct min_heap *h){
+    int i;
+    int n = h -> arr_len;
+    for(i  = n/2; i >= 0; i--){
+        min_heapify(h,i);
+    }
+}
+
+struct node allocate_leaf_node(char data,int freq){
     struct node new_node;
     new_node.data  = data;
     new_node.freq = freq;
@@ -20,12 +84,9 @@ struct node allocate_leaf_node(char data,int freq)
     return new_node;
 }
 
-int InDataArr(char data_arr[], int size, char dv)
-{
-    for(int i = 0; i < size; i++)
-    {
-        if(data_arr[i] == dv)
-        {
+int InDataArr(char data_arr[], int size, char dv){
+    for(int i = 0; i < size; i++){
+        if(data_arr[i] == dv){
             return 1;
         }
     }
@@ -33,8 +94,7 @@ int InDataArr(char data_arr[], int size, char dv)
     return 0;
 }
 
-struct node* find_frequecncy(char text[], int size, int* leaf_node_len)
-{   
+struct node* find_frequecncy(char text[], int size, int* leaf_node_len){   
     char data_arr[size];
     int len = 0;
 
@@ -43,11 +103,9 @@ struct node* find_frequecncy(char text[], int size, int* leaf_node_len)
     len++;
 
 
-    for(int i = 1; i< size; i++)
-    {
+    for(int i = 1; i< size; i++){
         int idx = InDataArr(data_arr,len,text[i]);
-        if(idx == 0)
-        {
+        if(idx == 0){
             data_arr[len] = text[i];
             len++;
         }
@@ -57,30 +115,25 @@ struct node* find_frequecncy(char text[], int size, int* leaf_node_len)
     int freq_arr[len];
     int counter;
 
-    for(int i = 0; i < len; i++)
-    {
+    for(int i = 0; i < len; i++){
         counter = 0;
         char DV = data_arr[i];
 
-        for(int j = 0; j < size; j++)
-        {
-            if(text[j] == DV)
-            {
+        for(int j = 0; j < size; j++){
+            if(text[j] == DV){
                 counter++;
             }
         }
         freq_arr[i] = counter;
     }
 
-    for(int i = 0; i < len; i++)
-    {
+    for(int i = 0; i < len; i++){
         printf("%c -> %d\n", data_arr[i], freq_arr[i]);
     }
 
     struct node* leaf_node = (struct node*) malloc(len * sizeof(struct node));
 
-    for(int i = 0; i <len; i++)
-    {
+    for(int i = 0; i <len; i++){
         leaf_node[i] = allocate_leaf_node(data_arr[i], freq_arr[i]);
     }
 
@@ -89,8 +142,7 @@ struct node* find_frequecncy(char text[], int size, int* leaf_node_len)
     return leaf_node;
 }
 
-FILE* verfy_file()
-{
+FILE* verfy_file(){
     char fname[100];
     printf("enter the file name: \n");
     scanf("%s",fname);
@@ -106,8 +158,7 @@ FILE* verfy_file()
 
 }
 
-long int getsize(FILE* the_file)
-{
+long int getsize(FILE* the_file){
     fseek(the_file,0L,SEEK_END);
     long int size = ftell(the_file);
     fseek(the_file,0,SEEK_SET);
@@ -129,6 +180,17 @@ int main()
     for(int i = 0; i< leaf_node_len; i++)
     {
         printf("%c -> %d\n", (leaf_nodes + i) -> data, (leaf_nodes + i) -> freq);
+    }
+
+    
+
+    struct min_heap* heap = allocate_heap(leaf_nodes, leaf_node_len);
+
+
+    build_min_heap(heap);
+
+    for(int i = 0; i< leaf_node_len; i++){
+        printf("%d", ((heap -> arr)+i)->freq);
     }
 
 
