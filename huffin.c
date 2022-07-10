@@ -155,8 +155,8 @@ struct node* extract_min(struct min_heap* h){
     h -> heap_len = h -> heap_len - 1;
     min_heapify(h,0);
 
-    printf("%d ",((h -> arr) + h ->arr_len - 1)->freq);
-    return((h -> arr) + h ->arr_len - 1);
+    printf("%d ",((h -> arr) + h ->heap_len - 1)->freq);
+    return((h -> arr) + h ->heap_len - 1);
 }
 
 void insert_at(struct node* arr,int idx){
