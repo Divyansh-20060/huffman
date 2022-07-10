@@ -22,6 +22,7 @@ long int getsize(FILE* the_file)
 {
     fseek(the_file,0L,SEEK_END);
     long int size = ftell(the_file);
+    fseek(the_file,0,SEEK_SET);
     return size;
 }
 
@@ -31,9 +32,10 @@ int main()
     long int size = getsize(file);
 
     char text[size];
-
     fgets(text,size,file);
-    printf("%s\n",file);
+
+    printf("%s\n",text);
+
 
     return 0;
 
