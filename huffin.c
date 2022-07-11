@@ -157,6 +157,28 @@ struct node* extract_min(struct min_heap* h){
     return((h -> arr) + h ->heap_len);
 }
 
+void insert_at(struct node* arr,int idx){
+    if(idx == 0){
+        return;
+    }
+
+    int parent = idx/2;
+
+    if((arr + parent) -> freq < (arr + idx) -> freq){
+        swap((arr + parent),(arr + idx));
+        insert_at(arr,parent);
+    }
+
+}
+
+void insert(struct min_heap* h, struct node* nd){
+    int n = h -> heap_len;
+    (h -> arr[n])  = *nd;
+    insert_at(h-> arr, n+1);
+
+    h -> heap_len = h -> heap_len + 1; 
+}
+
 struct node* huffman_encoding(struct min_heap* h, int n){
     for( int i = 0; i< n-1; i++){
         struct node new = allocate_node();
