@@ -247,7 +247,7 @@ int main(){
         printf("%d ", ((heap -> arr)+i)->freq);
     }
     printf("\n");
-
+    
     struct node * temp = extract_min(heap);
     printf("%d\n", temp ->freq);
 
