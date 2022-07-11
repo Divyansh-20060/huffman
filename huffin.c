@@ -154,7 +154,7 @@ struct node* extract_min(struct min_heap* h){
     swap(((h -> arr)),((h -> arr) + h -> heap_len - 1));
     h -> heap_len = h -> heap_len - 1;
     min_heapify(h,0);
-    return((h -> arr) + h ->arr_len - 1);
+    return((h -> arr) + h ->heap_len);
 }
 
 void insert_at(struct node* arr,int idx){
@@ -231,10 +231,10 @@ int main(){
 
     struct node* leaf_nodes = find_frequecncy(text, size, &leaf_node_len);
 
-    for(int i = 0; i< leaf_node_len; i++)
-    {
-        printf("%c -> %d\n", (leaf_nodes + i) -> data, (leaf_nodes + i) -> freq);
-    }
+    // for(int i = 0; i< leaf_node_len; i++)
+    // {
+    //     printf("%c -> %d\n", (leaf_nodes + i) -> data, (leaf_nodes + i) -> freq);
+    // }
 
     
 
@@ -246,15 +246,12 @@ int main(){
     for(int i = 0; i< leaf_node_len; i++){
         printf("%d ", ((heap -> arr)+i)->freq);
     }
-
     printf("\n");
-
+    
     struct node * temp = extract_min(heap);
-
     printf("%d\n", temp ->freq);
 
     temp = extract_min(heap);
-
     printf("%d\n", temp -> freq);
 
 
