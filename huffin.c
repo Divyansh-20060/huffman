@@ -262,7 +262,6 @@ int main(){
 
     printf("%d\n", temp -> freq);
 
-    //struct node* huff_tree = huffman_encoding(heap,leaf_node_len);
 
     return 0;
 
