@@ -206,7 +206,11 @@ int main(){
 
     struct node* temp = extract_min(heap);
 
-    printf("%c -> %d", temp -> data, temp -> freq);
+    printf("%c -> %d\n", temp -> data, temp -> freq);
+
+    temp = extract_min(heap);
+
+    printf("%c -> %d\n", temp -> data, temp -> freq);
 
     return 0;
 
