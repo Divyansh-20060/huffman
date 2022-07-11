@@ -88,6 +88,7 @@ struct node allocate_node(){
     struct node new_node;
     new_node.left = NULL;
     new_node.right = NULL;
+    return new_node;
 }
 
 int InDataArr(char data_arr[], int size, char dv){
@@ -153,29 +154,7 @@ struct node* extract_min(struct min_heap* h){
     swap(((h -> arr)),((h -> arr) + h -> heap_len - 1));
     h -> heap_len = h -> heap_len - 1;
     min_heapify(h,0);
-    return((h -> arr) + h ->arr_len - 1);
-}
-
-void insert_at(struct node* arr,int idx){
-    if(idx == 0){
-        return;
-    }
-
-    int parent = idx/2;
-
-    if((arr + parent) -> freq < (arr + idx) -> freq){
-        swap((arr + parent),(arr + idx));
-        insert_at(arr,parent);
-    }
-
-}
-
-void insert(struct min_heap* h, struct node* nd){
-    int n = h -> heap_len;
-    *((h -> arr) + n)  = *nd;
-    insert_at(h-> arr, n+1);
-
-    h -> heap_len = h -> heap_len + 1; 
+    return((h -> arr) + h ->heap_len);
 }
 
 struct node* huffman_encoding(struct min_heap* h, int n){
@@ -230,10 +209,10 @@ int main(){
 
     struct node* leaf_nodes = find_frequecncy(text, size, &leaf_node_len);
 
-    for(int i = 0; i< leaf_node_len; i++)
-    {
-        printf("%c -> %d\n", (leaf_nodes + i) -> data, (leaf_nodes + i) -> freq);
-    }
+    // for(int i = 0; i< leaf_node_len; i++)
+    // {
+    //     printf("%c -> %d\n", (leaf_nodes + i) -> data, (leaf_nodes + i) -> freq);
+    // }
 
     
 
@@ -245,14 +224,14 @@ int main(){
     for(int i = 0; i< leaf_node_len; i++){
         printf("%d ", ((heap -> arr)+i)->freq);
     }
-
     printf("\n");
 
-    struct node* huff_tree = huffman_encoding(heap,leaf_node_len);
+    struct node * temp = extract_min(heap);
+    printf("%d\n", temp ->freq);
 
-    printf("%d\n", huff_tree->freq);
-    printf("%d\n", (huff_tree->left) -> freq);
-    printf("%c\n", (huff_tree->left) -> data);
+    temp = extract_min(heap);
+    printf("%d\n", temp -> freq);
+
 
     return 0;
 
